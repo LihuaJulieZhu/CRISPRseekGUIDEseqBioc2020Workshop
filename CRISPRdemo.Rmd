@@ -1,0 +1,435 @@
+---
+title: "Design target specific gRNAs using CRISPRseek package"
+author: "Lihua Julie Zhu"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{CRISPRseek package demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+References  
+========================================================
+Zhu LJ, Holmes BR, Aronin N and Brodsky MH (2014). “CRISPRseek: A Bioconductor Package to Identify Target-Specific Guide RNAs for CRISPR-Cas9 Genome-Editing Systems.” PLoS one, 9(9). http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4172692/.  
+
+Zhu LJ (2015). “Overview of guide RNA design tools for CRISPR-Cas9 genome editing technology.” Front. Biol., 10(4).  
+ 
+
+First load the required packages and specify the input file path.   
+========================================================
+We are going to use a sequence from human as input, which has been included as as fasta file in the CRISPRseek package.  
+To perform off-target analysis, we need to load Human BSgenome package.  
+To annotate the target and off-targets, we need to load Human Transcript and gene identifier mapping packages.  
+In addition, you need to specify the output directory which will be the directory to look for all the output files.  
+For the current release, you no longer need to specify the file containing all restriction enzyme (RE) cut patterns. You have the option to specify your own RE pattern file instead of the default one supplied by the CRISPR package.  
+
+```{r loadlib, echo=TRUE}
+library(CRISPRseek)
+library(BSgenome.Hsapiens.UCSC.hg19)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(org.Hs.eg.db)
+
+outputDir <- file.path(getwd(),"CRISPRseekDemo")
+inputFilePath <- system.file('extdata', 'inputseq.fa', package = 'CRISPRseek')
+
+```
+
+Here is the command to learn more about the CRISPRseek package and how to use the two workflow functions to find gRNAs and perform off-target analysis with different use cases.  
+========================================================
+
+```{r, helpFun, echo=TRUE, eval=FALSE}
+args(offTargetAnalysis)
+args(compare2Sequences)
+?offTargetAnalysis
+?compare2Sequences
+?CRISPRseek
+browseVignettes('CRISPRseek')
+```
+
+Scenario 1: Find all gRNAs and perform off-target analysis for each gRNA  
+========================================================
+Please note that chromToSearch is set to chrX here for speed purpose, usually you do not need to set it, by default it is set to all.  
+```{r}
+offTargetAnalysis(inputFilePath,  
+    BSgenomeName = Hsapiens, 
+    chromToSearch ="chrX", 
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+    orgAnn = org.Hs.egSYMBOL,
+    outputDir = outputDir,  
+    overwrite = TRUE) 
+```
+
+Paired nickases decreases off-target cleavage by requiring the 
+independent binding of two separate gRNAs around a genomic region. Here is how to find gRNAs in paired configuration.  
+
+Scenario 2: Find gRNAs in paired configuration and perform off-target analysis for each gRNA  
+========================================================
+
+```{r}
+
+offTargetAnalysis(inputFilePath, 
+    findPairedgRNAOnly = TRUE, 
+    min.gap = 0, 
+    max.gap = 20,
+    BSgenomeName = Hsapiens, 
+    chromToSearch ="chrX",  
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene, 
+    orgAnn = org.Hs.egSYMBOL, 
+    max.mismatch = 0, 
+    outputDir = outputDir,  
+    overwrite = TRUE) 
+
+```
+
+You can specify the criteria of off-target search by specifying max.mismatch, e.g., allowing up to 2 mismatches to be considered as potential off-targets, by default it is set to 4.  
+
+```{r}
+offTargetAnalysis(inputFilePath,  
+    findPairedgRNAOnly = TRUE,  min.gap = 0, max.gap = 20, 
+    BSgenomeName = Hsapiens, 
+    chromToSearch ="chrX", 
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+    orgAnn = org.Hs.egSYMBOL, 
+    max.mismatch = 2, 
+    outputDir = outputDir,  
+    overwrite = TRUE) 
+
+```
+
+Paired gRNAs in proper spacing and orientation give more specificity and gRNAs 
+overlap with restriction enzyme cut sites facilitates cleavage monitoring. 
+Calling the function offTargetAnalysis with findPairedgRNAOnly = TRUE and 
+findgRNAsWithREcutOnly = TRUE results in searching, scoring and annotating gRNAs 
+that are in paired configuration and at least one of the pairs overlap a 
+restriction enzyme cut site. To be considered as a pair, gap between forward 
+gRNA and the corresponding reverse gRNA needs to be (min.gap, max.gap) inclusive
+and the reverse gRNA must sit before the forward gRNA. The default 
+(min.gap, max.gap) is (0,20). In order for a gRNA to be considered overlap with restriction enzyme cut site, the enzyme cut pattern must overlap with one of the gRNA positions specified in overlap.gRNA.positions, default position 17 and 18.   
+
+Scenario 3: Find paired gRNAs with restriction enzyme cut site(s) and perform off-target analysis  
+========================================================
+
+```{r}
+
+offTargetAnalysis(inputFilePath, 
+	findgRNAsWithREcutOnly = TRUE, 
+        minREpatternSize = 6,
+ 	overlap.gRNA.positions = c(17, 18),
+	findPairedgRNAOnly = TRUE, min.gap = 0, max.gap = 20, 
+    	BSgenomeName = Hsapiens, 
+	chromToSearch ="chrX",  
+    	txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+	orgAnn = org.Hs.egSYMBOL,
+	max.mismatch = 0, 
+    	outputDir = outputDir,  
+	overwrite = TRUE)
+
+```
+
+
+Scenario 4: Find gRNAs with restriction enzyme cut site(s) and  perform off-target analysis  
+========================================================
+
+```{r}
+offTargetAnalysis(inputFilePath, 
+    findgRNAsWithREcutOnly = TRUE, 
+    minREpatternSize = 6, 
+    overlap.gRNA.positions = c(17, 18), 
+    findPairedgRNAOnly = FALSE,  
+    BSgenomeName = Hsapiens, 
+    chromToSearch ="chrX",
+    max.mismatch = 0, 
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+    orgAnn = org.Hs.egSYMBOL, 
+    outputDir = outputDir,  
+    overwrite = TRUE) 
+```
+
+Scenario 5: Target and off-target analysis for user specified gRNAs    
+========================================================
+Calling the function offTargetAnalysis with findgRNAs = FALSE will skip the gRNA search step and go directly to off-target search, scoring and annotation for the input gRNAs. The input gRNAs will be annotated with restriction enzyme cut sites for users to review later. However, paired information will not be available.  
+
+```{r}
+
+gRNAFilePath <- system.file('extdata', 'testHsap_GATA1_ex2_gRNA1.fa', 
+    package = 'CRISPRseek')
+
+offTargetAnalysis(inputFilePath = gRNAFilePath,
+    findPairedgRNAOnly = FALSE, 
+    findgRNAs = FALSE,
+    BSgenomeName = Hsapiens, 
+    chromToSearch = 'chrX',
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+    orgAnn = org.Hs.egSYMBOL,
+    max.mismatch = 2, 
+    outputDir = outputDir, 
+    overwrite = TRUE)
+
+```
+
+Scenario 6. Quick gRNA finding without off-target analysis  
+========================================================
+Calling the function offTargetAnalysis with chromToSearch = "" results in quick 
+gRNA search without performing off-target analysis. Parameters 
+findgRNAsWithREcutOnly and findPairedgRNAOnly can be tuned to indicate 
+whether searching for gRNAs overlap restriction enzyme cut sites, and
+whether searching for gRNAs in paired configuration.  
+
+```{r}
+offTargetAnalysis(inputFilePath,
+    chromToSearch = "", 
+    outputDir = outputDir, 
+    overwrite = TRUE)
+```
+
+Scenario 7. Find potential gRNAs preferentially targeting one of two alleles without running time-consuming off-target analysis on all possible gRNAs.  
+========================================================
+Below is an example to search for gRNAs that target at least one of the 
+alleles. Two files are provided containing sequences that differ by a single
+nucleotide polymorphism (SNP). The results are saved in file 
+scoresFor2InputSequences.xls in outputDir directory.  
+
+Hungtinton disease is caused by mutations in the HTT gene. Expansion of CAG 
+repeats in one copy of HTT can result in adult onset neurodegeneration. 
+Because HTT is an essential gene, nucleases cannot be used that inactivate both
+alleles. Therefore, to identify nuclease target sites that are allele-specific,
+we will try to search for sites that overlap a single nucleotide polymorphism 
+(SNP), RS362331 is located in a coding exon of HTT. Two sequences that differ only
+at the polymorphism site will be used as inputs for compare2sequences.   
+
+
+```{r}
+inputFile1Path <- system.file("extdata", "rs362331C.fa", package = "CRISPRseek")
+inputFile2Path <- system.file("extdata", "rs362331T.fa", package = "CRISPRseek")
+seqs <- compare2Sequences(inputFile1Path, inputFile2Path,
+    outputDir = outputDir, 
+    overwrite = TRUE)
+```
+
+Scenario 8. Quick gRNA finding with gRNA efficacy prediction  
+========================================================
+Calling the function offTargetAnalysis with max.mismatch = 0 results in quick gRNA search with gRNA efficacy prediction without off-target analysis.  
+
+```{r}
+inputFilePath <- system.file('extdata', 'inputseq.fa', package = 'CRISPRseek')
+results <- offTargetAnalysis(inputFilePath, 
+    annotateExon = FALSE,chromToSearch = "chrX",
+    max.mismatch = 0, BSgenomeName = Hsapiens, 
+    outputDir = outputDir, overwrite = TRUE)
+```
+
+Alternatively, you can set useEfficacyFromInputSeq = TRUE and chromToSearch = "" without specifying BSgenomeName
+if input sequence is long enough.  
+
+```{r}
+inputFilePath <- system.file('extdata', 'inputseq.fa', package = 'CRISPRseek')
+offTargetAnalysis(inputFilePath, 
+    annotateExon = FALSE,chromToSearch = "",
+    useEfficacyFromInputSeq = TRUE,
+    max.mismatch = 0, 
+    outputDir = outputDir, overwrite = TRUE)
+```
+
+Scenario 9. gRNA search and offTarget analysis of super long input sequence (longer than 200kb)  
+========================================================
+Calling the function offTargetAnalysis with annotatePaired = FALSE, enable.multicore = TRUE and set n.cores.max will improve the performance. We also suggest split the super long sequence into smaller chunks and perform offTarget analysis for each subsequence separately (Thank Alex Williams for sharing this use case at https://support.bioconductor.org/p/72994/). In addition, please remember to use repeat masked sequence as input.  
+
+```{r}
+results <- offTargetAnalysis(inputFilePath, annotatePaired = FALSE,
+    chromToSearch = "chrX",
+    enable.multicore = TRUE, n.cores.max = 6, 
+    annotateExon = FALSE,
+    max.mismatch = 0, BSgenomeName = Hsapiens,
+    outputDir = outputDir, overwrite = TRUE)
+```
+    
+Scenario 10. Output cutting frequency determination (CFD) score for offtargets  
+========================================================
+Calling the function offTargetAnalysis with scoring.method set to CFDscore will output CFD score using the algorithm by Doench et al., 2016, which models the effects of both mismatch position and mismatch type on cutting frequency. By default, scoring.method is set to Hsu-Zhang, which only models the effect of mismatch position.  
+
+```{r}
+results <- offTargetAnalysis(inputFilePath, annotatePaired = FALSE,
+     scoring.method = "CFDscore",
+     chromToSearch = "chrX",
+     annotateExon = FALSE,
+     max.mismatch = 2, BSgenomeName = Hsapiens,
+     outputDir = outputDir, overwrite = TRUE)
+```
+
+Scenario 11. gRNA search and offtarget anlysis with PAM on the 5 prime side  
+======================================================
+```{r}
+  results <- offTargetAnalysis(inputFilePath,
+                annotatePaired = FALSE,
+                BSgenomeName = Hsapiens, chromToSearch = "chrX",
+                txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,
+                orgAnn = org.Hs.egSYMBOL, max.mismatch = 4,
+                outputDir = outputDir, overwrite = TRUE, 
+                PAM.location = "5prime",
+                PAM = "TGT", 
+                PAM.pattern = "^T[A|G]N", allowed.mismatch.PAM = 2,
+                subPAM.position = c(1,2))
+```
+
+Scenario 12. Use CRISPRscan to calculate efficacy 
+======================================================
+```{r}
+results <- offTargetAnalysis(inputFilePath, annotatePaired = FALSE,
+		  annotateExon = FALSE,findPairedgRNAOnly = FALSE, chromToSearch = "chrX",
+		  max.mismatch = 0, BSgenomeName = Hsapiens,
+		  rule.set = "CRISPRscan", 
+		  baseBeforegRNA = 6, 
+		  baseAfterPAM = 6, 
+		  featureWeightMatrixFile = system.file("extdata", "Morenos-Mateo.csv", 
+		  package = "CRISPRseek"), 
+		  outputDir = outputDir, overwrite = TRUE)
+```
+
+Scenario 13. Design gRNA for base editing systems
+======================================================
+```{r}
+offTargetAnalysis(inputFilePath, findgRNAsWithREcutOnly = FALSE, 
+		  REpatternFile = REpatternFile, findPairedgRNAOnly = FALSE,  
+		  annotatePaired = FALSE,  
+		  BSgenomeName = Hsapiens, chromToSearch = "chrX",  
+		  txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
+		  orgAnn = org.Hs.egSYMBOL, max.mismatch = 4,  
+		  outputDir = outputDir, overwrite = TRUE, PAM.location = "5prime",  
+		  PAM = "TGT", PAM.pattern = "^T[A|G]N", allowed.mismatch.PAM = 2,  
+		  subPAM.position = c(1,2), baseEditing = TRUE,  
+		  editingWindow = 10:20, targetBase = "A") 
+
+```
+
+Scenario 14. Design gRNA for prime editing systems
+======================================================
+```{r}
+inputFilePath <- DNAStringSet(paste(
+"CCAGTTTGTGGATCCTGCTCTGGTGTCCTCCACACCAGAATCAGGGATCGAAAA",
+"CTCATCAGTCGATGCGAGTCATCTAAATTCCGATCAATTTCACACTTTAAACG", sep =""))
+        names(inputFilePath) <- "testPE"
+        results3 <- offTargetAnalysis(inputFilePath, 
+            gRNAoutputName = "testPEgRNAs",
+            BSgenomeName = Hsapiens, chromToSearch = "chrX",
+            txdb = TxDb.Hsapiens.UCSC.hg19.knownGene, 
+            orgAnn = org.Hs.egSYMBOL, max.mismatch = 1, 
+            outputDir = outputDir, overwrite = TRUE,
+            PAM.size = 3L,
+            gRNA.size = 20L,
+            overlap.gRNA.positions = c(17L,18L),
+            PBS.length = 15,
+            corrected.seq = "T",
+            RT.template.pattern = "D$",
+            RT.template.length = 8:30, 
+            targeted.seq.length.change = 0,
+            bp.after.target.end = 15,
+            target.start = 20,
+            target.end = 20,
+            paired.orientation = "PAMin", min.gap = 20, max.gap = 90, 
+            primeEditing = TRUE, findPairedgRNAOnly = TRUE)
+
+```
+
+Exercise 1  
+========================================================
+
+To preferentially target one allele, select gRNAs that have the lowest 
+score for the other allele. Selected gRNAs can then be examined for potential off-target cleavage as described in Scenario 5.  
+
+Exercise 2  
+========================================================
+Identify gRNAs that target the following two input sequences equally well with 
+minimized off-target cleavage  
+
+>MfSerpAEx2  
+GACGATGGCATCCTCCGTTCCCTGGGGCCTCCTGCTGCTGGCGGGGCTGTGCTGCCTGGCCCCCCGCTCCCTGGCCTCGAGTCCCCTGGGAGCCGCTGTCCAGGACACAGGTGCACCCCACCACGACCATGAGCACCATGAGGAGCCAGCCTGCCACAAGATTGCCCCGAACCTGGCCGACTTCGCCTTCAGCATGTACCGCCAGGTGGCGCATGGGTCCAACACCACCAACATCTTCTTCTCCCCCGTGAGCATCGCGACCGCCTTTGCGTTGCTTTCTCTGGGGGCCAAGGGTGACACTCACTCCGAGATCATGAAGGGCCTTAGGTTCAACCTCACTGAGAGAGCCGAGGGTGAGGTCCACCAAGGCTTCCAGCAACTTCTCCGCACCCTCAACCACCCAGACAACCAGCTGCAGCTGACCACTGGCAATGGTCTCTTCATCGCTGAGGGCATGAAGCTACTGGATAAGTTTTTGGAGGATGTCAAGAACCTGTACCACTCAGAAGCCTTCTCCACCAATTTCGGGGACACCGAAGCAGCCAAGAAACAGATCAACGATTATGTTGAGAAGGGAACCCAAGGGAAAATTGTGGATTTGGTCAAAGACCTTGACAAAGACACAGCTTTCGCTCTGGTGAATTACATTTTCTTTAAAG  
+
+>HsSerpAEx2  
+GACAATGCCGTCTTCTGTCTCGTGGGGCATCCTCCTGCTGGCAGGCCTGTGCTGCCTGGTCCCTGTCTCCCTGGCTGAGGATCCCCAGGGAGATGCTGCCCAGAAGACAGATACATCCCACCATGATCAGGATCACCCAACCTTCAACAAGATCACCCCCAACCTGGCTGAGTTCGCCTTCAGCCTATACCGCCAGCTGGCACACCAGTCCAACAGCACCAATATCTTCTTCTCCCCAGTGAGCATCGCTACAGCCTTTGCAATGCTCTCCCTGGGGACCAAGGCTGACACTCACGATGAAATCCTGGAGGGCCTGAATTTCAACCTCACGGAGATTCCGGAGGCTCAGATCCATGAAGGCTTCCAGGAACTCCTCCGTACCCTCAACCAGCCAGACAGCCAGCTCCAGCTGACCACCGGCAATGGCCTGTTCCTCAGCGAGGGCCTGAAGCTAGTGGATAAGTTTTTGGAGGATGTTAAAAAGTTGTACCACTCAGAAGCCTTCACTGTCAACTTCGGGGACACCGAAGAGGCCAAGAAACAGATCAACGATTACGTGGAGAAGGGTACTCAAGGGAAAATTGTGGATTTGGTCAAGGAGCTTGACAGAGACACAGTTTTTGCTCTGGTGAATTACATCTTCTTTAAAG  
+
+Exercise 3  
+========================================================
+Constraint gRNA Sequence by setting gRNA.pattern to require or exclude specific
+features within the target site.  
+
+3a. Synthesis of gRNAs in vivo from host U6 promoters is more efficient if the 
+first base is guanine. To maximize the efficiency, what can we set gRNA.pattern?  
+
+3b. Synthesis of gRNAs in vitro using T7 promoters is most efficient when the 
+first two bases are GG. To maximize the efficiency, what can we set gRNA.pattern?    
+
+
+Exercise 4  
+========================================================
+In the examples we went through, we deliberately restricted to search off-targets
+in chromosome X. If we are interested in genome-wide search, what needs to be changed and how?  
+
+Exercise 5  
+========================================================
+Find gRNAs in a paired configuration with distance apart between 5 and 15 without
+performing off-target analysis  
+
+
+Exercise 6  
+========================================================
+Create a txdb object  
+
+Exercise 7  
+========================================================
+It is known that different CRISPR-cas system uses different PAM sequence, what
+parameter needs to be reset for PAM = 'NNNNGGGT'?  
+
+Exercise 8  
+========================================================
+It is known that different CRISPR-cas system has different gRNA length, what
+parameter needs to be reset?  
+
+Exercise 9  
+========================================================
+Which parameter needs to be reset to what if we are interested in finding gRANs with
+restriction enzyme pattern of size 8 or above?  
+
+Exercise 10  
+========================================================
+New penalty matrix has been recently derived, which parameter needs to be reset
+accordingly?  
+
+Exercise 11  
+========================================================
+It has been shown that although PAM sequence NGG is preferred, a variant NAG is
+also recognized with less efficiency. The researcher is interested in performing
+off-target searching to include both NGG and NAG variants. What parameter(s) need to be set correctly to carry such a search?  
+
+Exercise 12  
+========================================================
+Which parameter to reset if you would like to skip off-target analysis but still want the summary output file? How to reset the parameter?  
+
+Exercise 13  
+========================================================
+How to reset the parameters to perform offtarget analysis with truncated gRNAs?  
+
+Exercise 14  
+========================================================
+How to perform offtarget analysis for genomes whose BSgenome is not available?  
+Hint: use compare2Sequences and reset searchDirection and findgRNAs  
+
+Exercise 15  
+========================================================
+How to perform offtarget analysis for cpf1?  
+Hint: similar to scenario 11  
+You will need to alter parameters PAM.location, PAM, PAM.pattern and
+PAM.size  
+
+Exercise 16  
+========================================================
+Which parameters need to be altered to perform offtarget analysis for NmCas9?  
+Hit: need to alter PAM.size, PAM, PAM.pattern and weights  
+
+Exercise 17  
+========================================================
+Which parameter needs to be set to output gRNAs in fasta or genbank format?  
+
+
+Could you think of any other use cases?  
+========================================================
+

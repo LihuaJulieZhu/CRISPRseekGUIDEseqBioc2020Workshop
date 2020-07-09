@@ -1,0 +1,154 @@
+---
+title: "Analysis of GUIDE-seq data to identify offtargets using GUIDEseq package"
+author: "Lihua Julie Zhu"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{GUIDEseq package demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+References  
+========================================================
+Zhu LJ, Lawrence M, Gupta A, Pages H, Kucukural A, Garber M and Wolfe SA (2017). “GUIDEseq: a bioconductor package to analyze GUIDE-Seq datasets for CRISPR-Cas nucleases.” BMC Genomics, 18(1). http://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-017-3746-y.  
+
+Main text of the article: Use cases  
+
+Additional File 1: Preprocessing steps to genereate alignment and umi files as input for GUIDEseq  
+
+Additional File 2: Installation and use of GUIDEseq (intended for new users of R and Bioconductor)  
+
+
+First load the GUIDEseq and annotation packages.  
+========================================================
+
+We are going to use a dataset generated from human samples, which has been included in the GUIDEseq package.
+To annotate the targets and off-targets, we need to load Human BSgenome package, Human Transcript and gene identifier mapping packages.  
+
+Note: It is critical to use the same version of the genome for sequence mapping (preprocessing) and for sequence analysis in GUIDEseq.  
+
+```{r loadlib, echo=TRUE}
+library(CRISPRseekGUIDEseqBioc2017Workshop)
+library(GUIDEseq)
+library(BSgenome.Hsapiens.UCSC.hg19)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(org.Hs.eg.db)
+```
+
+Here are the commands to learn more about the GUIDEseq package and how to use the two workflow functions to perform GUIDE-seq data analysis for different types of CRISPR system and to compare different experiments.  
+========================================================
+
+```{r, helpFun, echo=TRUE, eval=FALSE}
+help(GUIDEseqAnalysis)
+help(combineOfftargets)
+browseVignettes("GUIDEseq")
+```
+
+Example 1. Analysis of SpCas9 GUIDE-seq data
+========================================================
+Although the analysis workflow function GUIDEseqAnalysis has more than 60 parameters for customized analysis, the majority of these parameters are pre-set for analyzing GUIDE-seq data from the most commonly used nuclease, SpCas9. Consequently when analyzing SpCas9 data only a small number of target-specific inputs are required from users.   
+
+There are four required inputs.  
+1) gRNA.file for specifying a file containing one or more gRNAs in fasta format;  
+2) alignment.file for specifying 1-2 files containing the sequence alignment in bam format;  
+3) umi.file for specifying 1-2 files containing UMI for each read;  
+4) BSgenomeName for specifying the BSgenome object containing the genome sequences  
+Please note that if outputDir is not specified, results will be automatically saved in a folder named according to the peak calling/merging/filtering criteria specified, e.g., gRNAmin80window20step20distance40 will be the default outputDir with the following code snippet.   
+
+The gRNA file can be created using a text editor or vi. Both alignment and umi files are generated in the preprocessing steps. The analysis results are saved as offTargetAnaysisOfPeaks.xls in the specified output directory.  
+
+
+```{r SpCas9-1Lib, eval=TRUE}
+    umi.inputfile <- c(system.file("extdata", "plusLibraryUMI.txt",
+            package = "CRISPRseekGUIDEseqBioc2017Workshop"),
+            system.file("extdata", "minusLibraryUMI.txt",
+            package = "CRISPRseekGUIDEseqBioc2017Workshop"))
+    alignment.inputfile <- c(system.file("extdata","plusLibrary.sort.bam" ,
+            package = "CRISPRseekGUIDEseqBioc2017Workshop"),
+            system.file("extdata","minusLibrary.sort.bam" ,
+            package = "CRISPRseekGUIDEseqBioc2017Workshop"))
+    gRNA.file <- system.file("extdata","gRNA.fa", package = "GUIDEseq")
+    guideSeqRes <- GUIDEseqAnalysis(
+            alignment.inputfile = alignment.inputfile,
+            umi.inputfile = umi.inputfile, 
+            gRNA.file = gRNA.file,
+            orderOfftargetsBy = "peak_score",
+            descending = TRUE, 
+            BSgenomeName = Hsapiens, min.reads = 80, n.cores.max = 4)
+    guideSeqRes$offTargets
+```
+
+Please note that the alignment file, umi file and gRNA file are included in the GUIDEseq package. To run the analysis for your own data,  please specify the file paths for target sequence (gRNA.file), sequence alignment (alignment.inputfile) and UMI input files (umi.inputfile). The following code assumes that the input files are located in the ~/GUIDEseqSpCas9Input directory.  
+The analysis results offTargetsInPeakRegions.xls will be saved in the ~/guideSeqResults directory as specified by outputDir.  
+
+
+```{r setLocalInputFile, eval=FALSE}
+library(GUIDEseq)
+gRNA.file <- "~/GUIDEseqSpCas9Input/SpCas9gRNAexample.fa"
+alignment.inputfile <- c("~/GUIDEseqSpCas9Input/plusLibrary.sort.bam",     
+      "~/GUIDEseqSpCas9Input/minusLibrary.sort.bam")
+umi.inputfile <- c("~/GUIDEseqSpCas9Input/plusLibraryUMI.txt", 
+      "~/GUIDEseqSpCas9Input/minusLibraryUMI.txt")
+outputDir <- "~/guideSeqResults"
+guideSeqResults <- GUIDEseqAnalysis(
+     alignment.inputfile = alignment.inputfile,
+     umi.inputfile = umi.inputfile,
+     gRNA.file = gRNA.file,
+     BSgenomeName = Hsapiens, 
+     outputDir = outputDir)
+```
+
+By default, the predicted cleavage score is calculated using the weight matrix and scoring algorithm from the Zhang laboratory. To use the algorithm developed by the Root Laboratory, set the scoring.method = "CFDscore".   
+
+
+Example 2: Annotate off-targets
+========================================================
+
+With parameters txdb and orgAnn set to an organism-specific transcript object and gene ID mapping object respectively, off-target sites are annotated to indicate whether the offtargets overlap with gene bodies and whether they fall within an exon. Here is an example for SpCas9 GUIDE-seq data processing that annotates identified potential off-target sites with features from the human genome.  
+
+```{r annotateOff, eval=TRUE}
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(org.Hs.eg.db)
+outputDir <- "~/guideSeqResults"
+guideSeqResults <- GUIDEseqAnalysis(
+    alignment.inputfile = alignment.inputfile,
+    umi.inputfile = umi.inputfile,
+    gRNA.file = gRNA.file,
+    BSgenomeName = Hsapiens, 
+    txdb = TxDb.Hsapiens.UCSC.hg19.knownGene, 
+    orgAnn = org.Hs.egSYMBOL,
+    outputDir = outputDir)
+```
+
+To annotate off-targets in other genomes, set txdb and orgAnn accordingly. For example, set txdb to TxDb.Mmusculus.UCSC.mm10.knownGene and orgAnno to org.Mm.eg.db for mouse.
+
+
+Example 3. Merge off-targets from multiple experiments to facilitate comparisons among different nuclease configurations or variants.
+========================================================
+When evaluating novel nuclease treatment conditions or different Cas9 variants, it is common practice to include off-target analysis of standard platforms as controls. To aid in comparisons between different nucleases, off-targets identified by GUIDE-seq can be easily merged using the combineOfftargets function.  Here is the example code to merge three experiments and generate a Venn diagram to depict the off-target overlaps among experiments.  
+
+```{r mergeOff, echo=FALSE}
+offtarget.folder <- system.file("extdata",  
+    c("sample2-18", "sample3-19", "sample4-20"),
+    package = "GUIDEseq")
+mergedOfftargets <-
+    combineOfftargets(offtarget.folder = offtarget.folder,
+    sample.name = c("Wild-type SpCas9", "SpCas9-MT3-ZFP",
+        "Split-SpCas9 dual NLS"), 
+    outputFileName = "TS2offtargets3Constructs.xls")
+head(mergedOfftargets)
+```
+
+Please note that the above code assumes that each of the offtarget.folders contain the offTargetsInPeakRegions.xls file  
+
+If desired, combineOfftargets can be used to remove off-targets common among different gRNAs by setting remove.common to TRUE. Furthermore, if a control sample without nuclease is available, peaks present in the control sample can be removed from the gRNA samples by setting the control.sample.name.  
+
+
+Exercise 1.  Analysis of NmCas9 GUIDE-seq data  
+========================================================
+Hint: Compared to SpCas9, NmCas9 has a longer gRNA (24 nucleotides), and different PAM sequence preference (NNNNGATT)  
+    
+
+Exercise 2. Analysis of Cpf1 GUIDE-seq data  
+========================================================
+Hint: Compared to SpCas9, Cpf1 has a different PAM sequence preference (TTTN), which locates on the 5' side of the protospacer unlike SpCas9 or NmCas9 which recognizes an NGG PAM on the 3' side of the protospacer.  
