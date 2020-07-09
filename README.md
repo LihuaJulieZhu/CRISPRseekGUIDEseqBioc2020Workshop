@@ -33,11 +33,11 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 <b>Workshop Participation</b>
 
 <p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, we recommend participants bring your own laptop with the following computing tools installed.
-<p>•R (version > 4.0; https://cran.r-project.org/)</p>
-<p>•	the CRISPRseek package along its dependencies</p>
-<p>	if (!requireNamespace("BiocManager", quietly = TRUE))</p>
-<p>	    install.packages("BiocManager")</p>
-<p>BiocManager::install("CRISPRseek")</p>
+<ul><li>R (version > 4.0; https://cran.r-project.org/)</li>
+<li>the CRISPRseek package along its dependencies</li>
+<li>if (!requireNamespace("BiocManager", quietly = TRUE))</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	    install.packages("BiocManager")</li>
+<li>BiocManager::install("CRISPRseek")</li></ul>
 
 <b>R/Bioconductor packages used</b>
 
@@ -48,10 +48,10 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 <p>• library(TxDb.Hsapiens.UCSC.hg19.knownGene)</p>
 
 <b>Time outline</b>
-<table>Activity	Time
-Introduction to CRISPR genome editing system and gRNA design	10 m
-gRNA design using CRISPRseek	10 m
-Hands on experience with CRISPRseek	10m
+<table><th>Activity	Time</th>
+  <tr><td>Introduction to CRISPR genome editing system and gRNA design</td><td>10 m</td></tr>
+<tr><td>gRNA design using CRISPRseek</td><td>10 m</td></tr>
+<tr><td>Hands on experience with CRISPRseek</td><td>10m</td></tr>
 </table>
 <b>Workshop goals and objectives</b>
 
