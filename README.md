@@ -25,9 +25,10 @@ After this workshop, participants should be able to apply the learned skills to 
 Basic understanding on how CRISPR genome editing works is helpful but not required.
 
 <p>Please refer to the following resource for gRNA design using CRISPRseek.</p>
-Zhu LJ, Holmes BR, Aronin N, Brodsky MH (2014). “CRISPRseek: A Bioconductor Package to Identify Target-Specific Guide RNAs for CRISPR-Cas9 Genome-Editing Systems.” PLoS one, 9(9).http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4172692/. 
 
-Zhu LJ (2015). “Overview of guide RNA design tools for CRISPR-Cas9 genome editing technology.”Front. Biol., 10(4).
+<ul><li>Zhu LJ, Holmes BR, Aronin N, Brodsky MH (2014). “CRISPRseek: A Bioconductor Package to Identify Target-Specific Guide RNAs for CRISPR-Cas9 Genome-Editing Systems.” PLoS one, 9(9).http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4172692/. </li>
+
+<li>Zhu LJ (2015). “Overview of guide RNA design tools for CRISPR-Cas9 genome editing technology.”Front. Biol., 10(4).</li></ul>
 
 <b>Workshop Participation</b>
 
@@ -47,19 +48,19 @@ Zhu LJ (2015). “Overview of guide RNA design tools for CRISPR-Cas9 genome edit
 <p>• library(TxDb.Hsapiens.UCSC.hg19.knownGene)</p>
 
 <b>Time outline</b>
-<p>Activity	Time</p>
+<table>Activity	Time
 Introduction to CRISPR genome editing system and gRNA design	10 m
 gRNA design using CRISPRseek	10 m
 Hands on experience with CRISPRseek	10m
-
+</table>
 <b>Workshop goals and objectives</b>
 
 <b>Learning goals</b>
 <ul>
-  <li>•	Understand how CRISPR genome editing works </li>
-•	Understand the guiding principle of gRNA design
-•	Learn how to perform gRNA design using CRISPRseek
-•	Learn how to select the best gRNAs for given input sequences
+  <li>	Understand how CRISPR genome editing works </li>
+<li>	Understand the guiding principle of gRNA design</li>
+<li>	Learn how to perform gRNA design using CRISPRseek</li>
+<li>	Learn how to select the best gRNAs for given input sequences</li>
 </ul>
 <b>Learning objectives</b>
 •	By the end of the workshop, participants will be able to design gRNAs for given input sequences with high efficacy and low offtarget effects for various variants of CRISPR genome editing systems such as the recently developed prime editor and base editor systems.
