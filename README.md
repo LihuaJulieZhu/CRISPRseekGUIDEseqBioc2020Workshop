@@ -18,37 +18,36 @@ After this workshop, participants should be able to apply the learned skills to 
 
 <b>Prerequisites</b>
 
-Participants are expected to have basic knowledge as follows:
-•	Basic knowledge of R syntax
-•	Some familiarity with the OrgDb, BSgenome, TxDb classes
+<p>Participants are expected to have basic knowledge as follows:</p>
+<p>•	Basic knowledge of R syntax</p>
+<p>•	Some familiarity with the OrgDb, BSgenome, TxDb classes</p>
 
 Basic understanding on how CRISPR genome editing works is helpful but not required.
 
-Please refer to the following resource for gRNA design using CRISPRseek.
+<p>Please refer to the following resource for gRNA design using CRISPRseek.</p>
 Zhu LJ, Holmes BR, Aronin N, Brodsky MH (2014). “CRISPRseek: A Bioconductor Package to Identify Target-Specific Guide RNAs for CRISPR-Cas9 Genome-Editing Systems.” PLoS one, 9(9).http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4172692/. 
 
 Zhu LJ (2015). “Overview of guide RNA design tools for CRISPR-Cas9 genome editing technology.”Front. Biol., 10(4).
 
 <b>Workshop Participation</b>
 
-Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, we recommend participants bring your own laptop with the following computing tools installed.
-•	R (version > 4.0; https://cran.r-project.org/)
-•	the CRISPRseek package along its dependencies
-•	if (!requireNamespace("BiocManager", quietly = TRUE))
-•	    install.packages("BiocManager")
-•	
-•	BiocManager::install("CRISPRseek")
+<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, we recommend participants bring your own laptop with the following computing tools installed.
+<p>•R (version > 4.0; https://cran.r-project.org/)</p>
+<p>•	the CRISPRseek package along its dependencies</p>
+<p>	if (!requireNamespace("BiocManager", quietly = TRUE))</p>
+<p>	    install.packages("BiocManager")</p>
+<p>BiocManager::install("CRISPRseek")</p>
 
 <b>R/Bioconductor packages used</b>
 
-The following R/Bioconductor packages will be explicitly used:
-•	library(CRISPRseek)
-•	library(org.Hs.eg.db)
-•	library(BSgenome.Hsapiens.UCSC.hg19)
-•	library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+<p>The following R/Bioconductor packages will be explicitly used:<p>
+<p>• library(CRISPRseek)</p>
+<p>• library(org.Hs.eg.db)</p>
+<p>• library(BSgenome.Hsapiens.UCSC.hg19)</p>
+<p>• library(TxDb.Hsapiens.UCSC.hg19.knownGene)</p>
 
 <b>Time outline</b>
-Activity	Time
+<p>Activity	Time</p>
 Introduction to CRISPR genome editing system and gRNA design	10 m
 gRNA design using CRISPRseek	10 m
 Hands on experience with CRISPRseek	10m
@@ -56,10 +55,11 @@ Hands on experience with CRISPRseek	10m
 <b>Workshop goals and objectives</b>
 
 <b>Learning goals</b>
-•	Understand how CRISPR genome editing works
+<ul>
+  <li>•	Understand how CRISPR genome editing works </li>
 •	Understand the guiding principle of gRNA design
 •	Learn how to perform gRNA design using CRISPRseek
 •	Learn how to select the best gRNAs for given input sequences
-
+</ul>
 <b>Learning objectives</b>
 •	By the end of the workshop, participants will be able to design gRNAs for given input sequences with high efficacy and low offtarget effects for various variants of CRISPR genome editing systems such as the recently developed prime editor and base editor systems.
