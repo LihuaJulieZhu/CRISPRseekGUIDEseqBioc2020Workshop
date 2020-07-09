@@ -1,8 +1,11 @@
 # CRISPRseekGUIDEseqBioc2020Workshop
 
-CRISPRseek for design target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor 
+CRISPRseek for design target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor
+
 Lihua Julie Zhu
+
 Department of Molecular, Cell and Cancer Biology, Program in Molecular Medicine, Program in Bioinformatics and Integrative Biology, Worcester, MA, 01655, USA.
+
 Julie.Zhu@umassmed.edu
 
 Workshop Description
