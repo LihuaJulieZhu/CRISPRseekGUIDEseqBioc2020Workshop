@@ -1,0 +1,23 @@
+Package: CRISPRseekGUIDEseqBioc2017Workshop
+Type: Package
+Title: gRNA design and GUIDE-seq data analysis using CRISPRseek and GUIDEseq package
+Version: 1.0.1
+Date: 2017-07-24
+Author: Lihua Julie Zhu
+Maintainer: Lihua Julie Zhu <julie.zhu@umassmed.edu>
+Description: Practical workflows for designing gRNAs with high efficacy and specificity using CRISPRseek, and analyzing GUIDE-seq dataset using GUIDEseq package.
+Depends:
+    R (>= 3.4)
+Imports: 
+    CRISPRseek, 
+    GUIDEseq,
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    org.Hs.eg.db,
+    BSgenome.Hsapiens.UCSC.hg19,
+    knitr
+License: GPL (>= 2)
+LazyData: TRUE
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+biocViews: GeneRegulation, Sequencing, WorkflowStep, CRISPR
+
