@@ -20,7 +20,7 @@ After this workshop, participants should be able to apply the learned skills to 
 
 <p>Participants are expected to have basic knowledge as follows:</p>
 <p>•	Basic knowledge of R syntax</p>
-<p>•	Some familiarity with the OrgDb, BSgenome, TxDb classes</p>
+<p>•	Some familiarity with the OrgDb, BSgenome, and TxDb classes</p>
 
 Basic understanding on how CRISPR genome editing works is helpful but not required.
 
@@ -32,7 +32,7 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 
 <b>Workshop Participation</b>
 
-<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, we recommend participants bring your own laptop with the following computing tools installed.
+<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, I recommend participants bring your own laptop with the following computing tools installed.
 <ul><li>R (version > 4.0; https://cran.r-project.org/)</li>
 <li>the CRISPRseek package along its dependencies</li>
 <li>if (!requireNamespace("BiocManager", quietly = TRUE))</li>
@@ -48,7 +48,7 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 <p>• library(TxDb.Hsapiens.UCSC.hg19.knownGene)</p>
 
 <b>Time outline</b>
-<table><th>Activity	Time</th>
+<table><th>Activity</th><th>Time</th>
   <tr><td>Introduction to CRISPR genome editing system and gRNA design</td><td>10 m</td></tr>
 <tr><td>gRNA design using CRISPRseek</td><td>10 m</td></tr>
 <tr><td>Hands on experience with CRISPRseek</td><td>10m</td></tr>
