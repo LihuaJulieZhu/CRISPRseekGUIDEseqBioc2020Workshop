@@ -1,16 +1,15 @@
-Package: CRISPRseekGUIDEseqBioc2020Workshop
+Package: CRISPRseekBioc2020Workshop
 Type: Package
-Title: gRNA design and GUIDE-seq data analysis using CRISPRseek and GUIDEseq package
+Title: CRISPRseek for designing target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor
 Version: 1.0.1
 Date: 2020-07-08
 Author: Lihua Julie Zhu
 Maintainer: Lihua Julie Zhu <julie.zhu@umassmed.edu>
-Description: Practical workflows for designing gRNAs with high efficacy and specificity using CRISPRseek, and analyzing GUIDE-seq dataset using GUIDEseq package.
+Description: Design gRNAs with high efficacy and specificity using CRISPRseek for various variants of CRISPR genome editing system.
 Depends:
-    R (>= 3.4)
+    R (>= 4.0)
 Imports: 
     CRISPRseek, 
-    GUIDEseq,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
     org.Hs.eg.db,
     BSgenome.Hsapiens.UCSC.hg19,
@@ -18,6 +17,6 @@ Imports:
 License: GPL (>= 2)
 LazyData: TRUE
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.0
 biocViews: GeneRegulation, Sequencing, WorkflowStep, CRISPR
 
