@@ -14,9 +14,9 @@ Imports:
     org.Hs.eg.db,
     BSgenome.Hsapiens.UCSC.hg19,
     knitr
-License: GPL (>= 2)
+License: MIT + file LICENSE
 LazyData: TRUE
+URL: https://github.com/LihuaJulieZhu/CRISPRseekGUIDEseqBioc2020Workshop
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 biocViews: GeneRegulation, Sequencing, WorkflowStep, CRISPR
-
