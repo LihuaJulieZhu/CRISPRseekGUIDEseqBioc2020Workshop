@@ -48,7 +48,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-          repository: jianhong/crisperseekguideseqbioc2020workshop
+          repository: lihuajuliezhu/crisprseekguideseqbioc2020workshop
           tag_with_ref: true
           tag_with_sha: true
           tags: latest
