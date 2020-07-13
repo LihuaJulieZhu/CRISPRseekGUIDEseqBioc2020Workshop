@@ -15,14 +15,14 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
     Biobase,
-    CRISPRseek
-Suggests: 
-    knitr,
-    rmarkdown,
-    pkgdown,
+    CRISPRseek,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
     org.Hs.eg.db,
     BSgenome.Hsapiens.UCSC.hg19
+Suggests: 
+    knitr,
+    rmarkdown,
+    pkgdown
 URL: https://github.com/LihuaJulieZhu/CRISPRseekGUIDEseqBioc2020Workshop
 BugReports: https://github.com/LihuaJulieZhu/CRISPRseekBioc2020Workshop/issues/new/choose
 VignetteBuilder: knitr
