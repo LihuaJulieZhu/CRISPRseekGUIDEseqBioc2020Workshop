@@ -1,5 +1,5 @@
 Package: RISPRseekGUIDEseqBioc2020Workshop
-Title: CRISPRseek for designing target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor
+Title: CRISPRseek and GUIDEseq for designing target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor
 Version: 1.0.1
 Authors@R: 
     person(given = "Lihua Julie",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "julie.zhu@umassmed.edu",
            comment = c(ORCID = "your-orc-id-here"))
-Description: Design gRNAs with high efficacy and specificity using CRISPRseek for various variants of CRISPR genome editing system. 
+Description: Design gRNAs with high efficacy and specificity using CRISPRseek for various variants of CRISPR genome editing system, and GUIDEseq for genome-wide offtarget anaysis of GUIDE-seq data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -16,6 +16,7 @@ RoxygenNote: 7.1.0
 Depends: 
     Biobase,
     CRISPRseek,
+    GUIDEseq,
     TxDb.Hsapiens.UCSC.hg19.knownGene,
     org.Hs.eg.db,
     BSgenome.Hsapiens.UCSC.hg19
