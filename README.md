@@ -8,7 +8,7 @@ Department of Molecular, Cell and Cancer Biology, Program in Molecular Medicine,
 
 Julie.Zhu@umassmed.edu
 
-<br>Note: this workshop will be followed with [motifStack workshop](https://github.com/jianhong/Bioc2020workshop).
+<br>Note: this workshop will be followed with [motif analysis with motifStack and dagLogo workshop by Jianhong Ou](https://github.com/jianhong/Bioc2020workshop).
 
 <b>Workshop Description</b>
 
@@ -52,8 +52,7 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 <b>Time outline</b>
 <table><th>Activity</th><th>Time</th>
   <tr><td>Introduction to CRISPR genome editing system and gRNA design</td><td>5 m</td></tr>
-<tr><td>gRNA design using CRISPRseek</td><td> 7 m</td></tr>
-<tr><td>Hands on experience with CRISPRseek</td><td>8m</td></tr>
+<tr><td>gRNA design using CRISPRseek</td><td> 15 m</td></tr>
   <tr><td>Introduction to GUIDE-seq technology and GUIDEseq pacakge </td><td>5m</td></tr>
   <tr><td>Hands on experience with GUIDEseq</td><td>5m</td></tr>
 </table>
