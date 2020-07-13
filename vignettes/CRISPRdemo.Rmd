@@ -275,29 +275,37 @@ Scenario 12. Use CRISPRscan to calculate efficacy
 ======================================================
 ```{r}
 results <- offTargetAnalysis(inputFilePath, annotatePaired = FALSE,
-		  annotateExon = FALSE,findPairedgRNAOnly = FALSE, chromToSearch = "chrX",
-		  max.mismatch = 0, BSgenomeName = Hsapiens,
-		  rule.set = "CRISPRscan", 
-		  baseBeforegRNA = 6, 
-		  baseAfterPAM = 6, 
-		  featureWeightMatrixFile = system.file("extdata", "Morenos-Mateo.csv", 
-		  package = "CRISPRseek"), 
-		  outputDir = outputDir, overwrite = TRUE)
+		 annotateExon = FALSE,findPairedgRNAOnly = FALSE, chromToSearch = "chrX",
+		 max.mismatch = 0, BSgenomeName = Hsapiens,
+		 rule.set = "CRISPRscan", 
+		 baseBeforegRNA = 6, 
+		 baseAfterPAM = 6, 
+		 featureWeightMatrixFile = system.file("extdata", "Morenos-Mateo.csv", 
+		 package = "CRISPRseek"), 
+		 outputDir = outputDir, overwrite = TRUE)
 ```
 
 Scenario 13. Design gRNA for base editing systems
 ======================================================
 ```{r}
 offTargetAnalysis(inputFilePath, findgRNAsWithREcutOnly = FALSE, 
-		  REpatternFile = REpatternFile, findPairedgRNAOnly = FALSE,  
-		  annotatePaired = FALSE,  
-		  BSgenomeName = Hsapiens, chromToSearch = "chrX",  
-		  txdb = TxDb.Hsapiens.UCSC.hg19.knownGene,  
-		  orgAnn = org.Hs.egSYMBOL, max.mismatch = 4,  
-		  outputDir = outputDir, overwrite = TRUE, PAM.location = "5prime",  
-		  PAM = "TGT", PAM.pattern = "^T[A|G]N", allowed.mismatch.PAM = 2,  
-		  subPAM.position = c(1,2), baseEditing = TRUE,  
-		  editingWindow = 10:20, targetBase = "A") 
+		 REpatternFile = REpatternFile, findPairedgRNAOnly = FALSE, 
+
+		 annotatePaired = FALSE, 
+
+		 BSgenomeName = Hsapiens, chromToSearch = "chrX", 
+
+		 txdb = TxDb.Hsapiens.UCSC.hg19.knownGene, 
+
+		 orgAnn = org.Hs.egSYMBOL, max.mismatch = 4, 
+
+		 outputDir = outputDir, overwrite = TRUE, PAM.location = "5prime", 
+
+		 PAM = "TGT", PAM.pattern = "^T[A|G]N", allowed.mismatch.PAM = 2, 
+
+		 subPAM.position = c(1,2), baseEditing = TRUE, 
+
+		 editingWindow = 10:20, targetBase = "A") 
 
 ```
 
