@@ -6,7 +6,7 @@ Authors@R:
            family = "Zhu",
            role = c("aut", "cre"),
            email = "julie.zhu@umassmed.edu",
-           comment = c(ORCID = "your-orc-id-here"))
+           comment = c(ORCID = "0000-0001-7416-0590"))
 Description: Design gRNAs with high efficacy and specificity using CRISPRseek for various variants of CRISPR genome editing system, and GUIDEseq for genome-wide offtarget anaysis of GUIDE-seq data.
 License: MIT + file LICENSE
 Encoding: UTF-8
