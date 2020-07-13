@@ -34,17 +34,19 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 
 <b>Workshop Participation</b>
 
-<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. To follow along the hands-on session, I recommend participants bring your own laptop with the following computing tools installed.
+<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. We will post a Docker image with required packages and data pre-installed for you to download and run the analysis within a Docker container (lihuajuliezhu/crisprseekguideseqbioc2020workshop). If you will use the Docker image, please get Docker installed (https://www.docker.com/get-started) in advance. For participants who wish to install all packages by themselves, you will also need to install the following packages.
 <ul><li>R (version > 4.0; https://cran.r-project.org/)</li>
-<li>the CRISPRseek package along its dependencies</li>
+<li>the CRISPRseek and GUIDEseq packages along their dependencies</li>
 <li>if (!requireNamespace("BiocManager", quietly = TRUE))</li>
 <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	    install.packages("BiocManager")</li>
+<li>BiocManager::install("CRISPRseek")</li>
 <li>BiocManager::install("CRISPRseek")</li></ul>
 
 <b>R/Bioconductor packages used</b>
 
 <p>The following R/Bioconductor packages will be explicitly used:<p>
-<p>• library(CRISPRseek)</p>
+<p>• library(CRISPRseek)</p> (
+<p>• library(GUIDEseq)</p>
 <p>• library(org.Hs.eg.db)</p>
 <p>• library(BSgenome.Hsapiens.UCSC.hg19)</p>
 <p>• library(TxDb.Hsapiens.UCSC.hg19.knownGene)</p>
