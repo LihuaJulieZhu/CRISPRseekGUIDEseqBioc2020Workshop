@@ -45,7 +45,7 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 <b>R/Bioconductor packages used</b>
 
 <p>The following R/Bioconductor packages will be explicitly used:<p>
-<p>• library(CRISPRseek)</p> (
+<p>• library(CRISPRseek)</p>
 <p>• library(GUIDEseq)</p>
 <p>• library(org.Hs.eg.db)</p>
 <p>• library(BSgenome.Hsapiens.UCSC.hg19)</p>
