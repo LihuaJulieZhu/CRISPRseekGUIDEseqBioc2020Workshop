@@ -2,11 +2,11 @@ Package: RISPRseekGUIDEseqBioc2020Workshop
 Title: CRISPRseek and GUIDEseq for designing target-specific gRNAs for the CRISPR genome editing system including base editor and prime editor
 Version: 1.0.2
 Authors@R: 
-    person(given = "Lihua Julie",
+    c(person(given = "Lihua Julie",
            family = "Zhu",
            role = c("aut", "cre"),
            email = "julie.zhu@umassmed.edu",
-           comment = c(ORCID = "0000-0001-7416-0590"),
+           comment = c(ORCID = "0000-0001-7416-0590")),
     person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
            role=c("aut"), comment=c(ORCID="0000-0002-8652-2488")))
 Description: Design gRNAs with high efficacy and specificity using CRISPRseek for various variants of CRISPR genome editing system, and GUIDEseq for genome-wide offtarget anaysis of GUIDE-seq data.
