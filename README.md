@@ -8,7 +8,7 @@ Department of Molecular, Cell and Cancer Biology, Program in Molecular Medicine,
 
 Julie.Zhu@umassmed.edu
 
-<br>Note: this workshop will be followed with [motif analysis with motifStack and dagLogo workshop](https://github.com/jianhong/Bioc2020workshop).
+<br>Note: This workshop will be followed by [motif analysis with motifStack and dagLogo workshop](https://github.com/jianhong/Bioc2020workshop).
 
 <b>Workshop Description</b>
 
