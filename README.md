@@ -8,7 +8,7 @@ Department of Molecular, Cell and Cancer Biology, Program in Molecular Medicine,
 
 Julie.Zhu@umassmed.edu
 
-<br>Note: This workshop will be followed by [motif analysis with motifStack and dagLogo workshop](https://github.com/jianhong/Bioc2020workshop).
+<br>Note: The second part of the workshop will be [motif analysis with motifStack and dagLogo workshop](https://github.com/jianhong/Bioc2020workshop).
 
 <b>Workshop Description</b>
 
@@ -34,7 +34,9 @@ Basic understanding on how CRISPR genome editing works is helpful but not requir
 
 <b>Workshop Participation</b>
 
-<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. We will post a Docker image with required packages and data pre-installed for you to download and run the analysis within a Docker container (lihuajuliezhu/crisprseekguideseqbioc2020workshop). If you will use the Docker image, please get Docker installed (https://www.docker.com/get-started) in advance. For participants who wish to install all packages by themselves, you will also need to install the following packages.
+<p>Participants are expected to have basic knowledge about R and several R packages as described above in advance. The Docker container with required packages and data pre-installed can be downloaded using the following command. </p>
+ <p> pull lihuajuliezhu/crisprseekguideseqbioc2020workshop </p>
+ <p>If you will use the Docker image, please get Docker installed (https://www.docker.com/get-started) in advance. For participants who wish to install all packages by themselves, you will also need to install the following packages.
 <ul><li>R (version > 4.0; https://cran.r-project.org/)</li>
 <li>the CRISPRseek and GUIDEseq packages along their dependencies</li>
 <li>if (!requireNamespace("BiocManager", quietly = TRUE))</li>
