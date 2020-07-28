@@ -28,7 +28,6 @@ To annotate the targets and off-targets, we need to load Human BSgenome package,
 Note: It is critical to use the same version of the genome for sequence mapping (preprocessing) and for sequence analysis in GUIDEseq.  
 
 ```{r loadlib, echo=TRUE}
-library(RISPRseekGUIDEseqBioc2020Workshop)
 library(GUIDEseq)
 library(BSgenome.Hsapiens.UCSC.hg19)
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
@@ -59,14 +58,11 @@ The gRNA file can be created using a text editor or vi. Both alignment and umi f
 
 
 ```{r SpCas9-1Lib, eval=TRUE}
-    umi.inputfile <- c(system.file("extdata", "plusLibraryUMI.txt",
-            package = "RISPRseekGUIDEseqBioc2020Workshop"),
-            system.file("extdata", "minusLibraryUMI.txt",
-            package = "RISPRseekGUIDEseqBioc2020Workshop"))
-    alignment.inputfile <- c(system.file("extdata","plusLibrary.sort.bam" ,
-            package = "RISPRseekGUIDEseqBioc2020Workshop"),
-            system.file("extdata","minusLibrary.sort.bam" ,
-            package = "RISPRseekGUIDEseqBioc2020Workshop"))
+   
+    umi.inputfile <- system.file("extdata", "UMI-HEK293_site4_chr13.txt", package = "GUIDEseq")
+    
+    alignment.inputfile <- system.file("extdata","bowtie2.HEK293_site4_chr13.sort.bam", package = "GUIDEseq")
+    
     gRNA.file <- system.file("extdata","gRNA.fa", package = "GUIDEseq")
     guideSeqRes <- GUIDEseqAnalysis(
             alignment.inputfile = alignment.inputfile,
